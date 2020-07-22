@@ -40,7 +40,11 @@ export default {
         }
         res.send('signIn');
     },
-    profile: async (req: Request, res: Response) => {
-        res.send('profile');
+    profile: async (req: Request, res: Response) => { 
+        const user = await User.findById(req.userId, {password: 0});
+        if (!user) {
+            return res.status(404).json('No User found');
+        }
+        res.json(user);
     }
 }
